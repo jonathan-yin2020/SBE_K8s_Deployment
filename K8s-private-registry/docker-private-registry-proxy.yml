@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet 
+metadata:
+    name: docker-private-registry-proxy
+    labels:
+        app: docker-private-registry-proxy
+spec:
+    selector:
+        matchLabels:
+            app: docker-private-registry-proxy
+    template:
+        metadata:
+            labels:
+                app: docker-private-registry-proxy
+        spec:
+            containers:
+            - name: proxy-tcp
+              image: gcr.io/google_containers/proxy-to-service:v2
+              ports:
+              - containerPort: 5000
+                hostPort: 5000
+                name: tcp
+                protocol: TCP
+              args: ["tcp", "5000", "docker-private-registry.default.svc.cluster.local"]
+              resources:
+                limits:
+                    cpu: 100m
+                    memory: 64Mi

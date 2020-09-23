@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -o nounset
+
+set -o pipefail
+
+pid=$(ps -aux| grep 5000:5000 | awk '{print $2}')
+
+kill $pid
+
+kubectl delete secret repocred
+
+kubectl delete -f docker-private-registry.yml --ignore-not-found=true 
+
+kubectl delete -f docker-private-registry-proxy.yml --ignore-not-found=true
+

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+#exit when your script tries to use undeclared variables
+set -o nounset
+
+#The exit status of the last command that threw a non-zero exit code is returned
+set -o pipefail
+
+echo "Please enter the Username:"
+read varname
+
+echo "Please enter the Password:"
+
+read varpass
+
+command=$(docker login -u $varname -p $varpass 127.0.0.1:5000 2>&1 | grep 401)
+
+if [[ $command ]]; then
+        echo "incorrect Username or Password, Please try again!!"
+        exit 3
+else
+        echo "Username and Password are correct!! Creating secret......"
+fi
+
+kubectl create secret docker-registry repocred --docker-server=127.0.0.1:5000 --docker-username=$varname  --docker-password=$varpass
+
+kubectl apply -f docker-private-registry.yml 
+
+kubectl rollout status deploy/docker-private-registry-deployment
+
+kubectl apply -f docker-private-registry-proxy.yml
+sleep 5
+
+bash ./port-forward-registry
+
