@@ -6,9 +6,9 @@ Go to /GEEDocker for code to build the latest Open GEE into Docker images and /K
 ![flow][flow]
 # Prerequisites before create the infrastructure
 
-## clone this repo and copy the require .pem cert for your AMI into the snowball-client-linux-1.0.1-335/bin directory
+## Clone this repo and copy the require .pem cert for your AMI into the snowball-client-linux-1.0.1-335/bin directory
 
-## create Snowball Edge and AWS Cli profiles
+## Create Snowball Edge and AWS Cli profiles
 
     snowballEdge configure --profile && aws configure --profile
 
@@ -16,8 +16,8 @@ If you not sure how to do it, check out the following links\
 https://docs.aws.amazon.com/snowball/latest/developer-guide/using-client-commands.html#client-configuration\
 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
-## have the NFS setup with 4 shared folder. Some shared folders might require extra data copy prior to mount to the container, this is depended on your application requirements.
-## show different ownership and permission of the shared folders
+## This NFS setup with 4 shared folder. Some shared folders might require extra data copy prior to mount to the container, this is depended on your application requirements.
+## Show different ownership and permission of the shared folders
 ![nfs][nfs]
 
 ## /etc/exports
@@ -28,11 +28,11 @@ https://www.tecmint.com/how-to-setup-nfs-server-in-linux/
 
 # Deploy infrastructure
 
-## create 3 instances with public IP assigned
+## Create 3 instances with public IP assigned
 
     ./SBE_K8s_Deployment/Create_instance.sh
 
-## once verified SSH accessibility to the instances, run the next script to finish the rest of the depolyment 
+## Once verified SSH accessibility to the instances, run the next script to finish the rest of the depolyment 
 
     ./SBE_K8s_Deployment/Create_K8s.sh
 
