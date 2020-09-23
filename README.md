@@ -12,8 +12,8 @@ Go to /GEEDocker for code to build the latest Open GEE into Docker images and /K
 
     snowballEdge configure --profile && aws configure --profile
 
-If you not sure how to do it, check out the following links
-https://docs.aws.amazon.com/snowball/latest/developer-guide/using-client-commands.html#client-configuration
+If you not sure how to do it, check out the following links\
+https://docs.aws.amazon.com/snowball/latest/developer-guide/using-client-commands.html#client-configuration\
 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
 ## have the NFS setup with 4 shared folder. Some shared folders might require extra data copy prior to mount to the container, this is depended on your application requirements.
@@ -23,7 +23,7 @@ https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 ## /etc/exports
 ![nfs1][nfs1]
 
-Check out the following link for how to setup NFS
+Check out the following link for how to setup NFS\
 https://www.tecmint.com/how-to-setup-nfs-server-in-linux/
 
 # Deploy infrastructure
