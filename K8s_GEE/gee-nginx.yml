@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gee
+  labels:
+    app: gee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gee
+  template:
+    metadata:
+      labels:
+        app: gee
+    spec:
+      containers:
+        - name: open-gee
+          image: 127.0.0.1:5000/geeserver:v1
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - mountPath: "/opt/google/gehttpd/htdocs/cutter/globes/"
+            name: nfsvol
+          - mountPath: "/var/opt/google/pgsql/data/"
+            name: nfsvol2
+        - name: nginx
+          image: 127.0.0.1:5000/nginx-auth:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8088
+          volumeMounts:
+          - name: auth
+            mountPath: "/share/"
+          - name: nginx-proxy-config
+            mountPath: "/etc/nginx/nginx.conf"
+            subPath: nginx.conf
+      imagePullSecrets:
+      - name: repocred
+      volumes:
+      - name: nfsvol
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+      - name: nfsvol2
+        persistentVolumeClaim:
+          claimName: nfs-pvc2
+      - name: auth
+        persistentVolumeClaim:
+          claimName: nfs-pvc3
+      - name: nginx-proxy-config
+        configMap:
+          name: mc3-nginx-conf
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mc3-nginx-conf
+data:
+  nginx.conf: |-
+    user  nginx;
+    worker_processes  1;
+
+    error_log  /var/log/nginx/error.log warn;
+    pid        /var/run/nginx.pid;
+
+    events {
+        worker_connections  1024;
+    }
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+
+        sendfile        on;
+        keepalive_timeout  65;
+
+        server {
+            listen 8088;
+
+            location / {
+                proxy_pass http://localhost:80;
+                auth_basic           "Auth Required!!";
+                auth_basic_user_file /share/.htpasswd;
+            }
+        }
+    }
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gee-service
+spec:
+  type: NodePort
+  selector:
+    app: gee
+  ports:
+  - protocol: TCP
+    port: 8088
+    nodePort: 30003
