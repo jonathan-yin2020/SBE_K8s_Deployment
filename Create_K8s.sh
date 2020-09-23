@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 # Make snowballEdge can be excute anywhere
-export PATH=$PATH:$PWD
+export PATH=$PATH:"${PWD%/*}"
 
 # Create a tmp directory 
 mkdir -p tmp/
 
 # Set the SSH Cert
-CERT="jan20-snowlab.pem"
+CERT="${PWD%/*}"/jan20-snowlab.pem
 
 function CREATE_NETWORK {
     snowballEdge create-virtual-network-interface \
@@ -105,20 +105,20 @@ echo -e " ********************************\n \
 Wait for the cluster being setup\n \
 ********************************"
 # Node setup
-ssh -i $CERT centos@$MASTER_IP "sudo bash -s" < master1.sh > tmp/node1.log 2>&1 &
+ssh -i $CERT centos@$MASTER_IP "sudo bash -s" < K8s_install/master1.sh > tmp/node1.log 2>&1 &
 sleep 10
-ssh -i $CERT centos@$WORKER_IP1 "sudo bash -s" < worker-node.sh > tmp/node2.log 2>&1 &
+ssh -i $CERT centos@$WORKER_IP1 "sudo bash -s" < K8s_install/worker-node.sh > tmp/node2.log 2>&1 &
 sleep 10
-ssh -i $CERT centos@$WORKER_IP2 "sudo bash -s" < worker-node.sh > tmp/node3.log 2>&1 &
+ssh -i $CERT centos@$WORKER_IP2 "sudo bash -s" < K8s_install/worker-node.sh > tmp/node3.log 2>&1 &
 sleep 120
 
-ssh -i $CERT centos@$MASTER_IP "bash -s" < master2.sh > tmp/node4.log 2>&1 &
+ssh -i $CERT centos@$MASTER_IP "bash -s" < K8s_install/master2.sh > tmp/node4.log 2>&1 &
 sleep 10
 
 JOIN=`tail -2 tmp/node1.log | sed 's|[\,]||' | awk '$1=$1'` 
-ssh -i $CERT centos@$WORKER_IP1 sudo $JOIN 2>&1 &
-ssh -i $CERT centos@$WORKER_IP2 sudo $JOIN 2>&1 &
-sleep 10
+ssh -i $CERT centos@$WORKER_IP1 sudo $JOIN >> tmp/node4.log 2>&1 &
+ssh -i $CERT centos@$WORKER_IP2 sudo $JOIN >> tmp/node4.log 2>&1 &
+sleep 30
 
 ssh -i $CERT centos@$MASTER_IP kubectl get node
 echo "Install completed successfully"
