@@ -7,7 +7,10 @@ spec:
   - ReadWriteMany
   resources:
      requests:
-       storage: 20Gi
+       storage: 5Gi
+  selector:
+    matchLabels:
+      purpose: globes
 ---
 
 apiVersion: v1
@@ -19,7 +22,10 @@ spec:
   - ReadWriteMany
   resources:
      requests:
-       storage: 20Gi
+       storage: 10Gi
+  selector:
+    matchLabels:
+      purpose: pgsql
 ---
 
 apiVersion: v1
@@ -31,7 +37,10 @@ spec:
   - ReadWriteMany
   resources:
      requests:
-       storage: 3Gi
+       storage: 2Gi
+  selector:
+    matchLabels:
+      purpose: password
 ---
 
 apiVersion: v1
@@ -43,6 +52,9 @@ spec:
   - ReadWriteMany
   resources:
      requests:
-       storage: 3Gi
+       storage: 15Gi
+  selector:
+    matchLabels:
+      purpose: registry
 
 
