@@ -120,5 +120,25 @@ ssh -i $CERT centos@$WORKER_IP1 sudo $JOIN >> tmp/node4.log 2>&1 &
 ssh -i $CERT centos@$WORKER_IP2 sudo $JOIN >> tmp/node4.log 2>&1 &
 sleep 30
 
-ssh -i $CERT centos@$MASTER_IP kubectl get node
-echo "Install completed successfully"
+ssh -i $CERT centos@$MASTER_IP "kubectl get node"
+echo -e "Install completed successfully\n"
+
+echo -e "Download file from Github\n"
+ssh -i $CERT centos@$MASTER_IP "git clone https://github.com/jonathan-yin2020/SBE_K8s_Deployment.git"
+sleep 5
+
+echo -e "Starting Private Registry and GEE"
+ssh -i $CERT centos@$MASTER_IP "cd SBE_K8s_Deployment/K8s_GEE && kubectl apply -f pv-nfs.yml"
+sleep 5
+ssh -i $CERT centos@$MASTER_IP "cd SBE_K8s_Deployment/K8s_GEE && kubectl apply -f pvc-nfs.yml"
+sleep 5
+
+echo "Enter Private Registry Username:"
+read USERN
+
+echo "Enter Private Registry Password:"
+read USERP
+
+echo -e "$USERN\n$USERP" | ssh -i $CERT centos@$MASTER_IP "cd SBE_K8s_Deployment/K8s_private_registry && ./start-docker-private-registry"
+sleep 5
+ssh -i $CERT centos@$MASTER_IP "cd SBE_K8s_Deployment/K8s_GEE && kubectl apply -f gee-nginx.yaml"
