@@ -14,6 +14,10 @@ This private registry is password protected. The password data and the images in
 
 # Registry access<a id="sec-2" name="sec-2"></a>
 
+For testing from Master node
+
+    ./port-forward-regisrty
+
 Use the following address/port to push, pull images
 
     127.0.0.1:5000
