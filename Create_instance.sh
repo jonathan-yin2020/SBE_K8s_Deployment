@@ -88,10 +88,21 @@ sleep 5
 CREATE_INSTANCE | jq -c '.Instances[] | .InstanceId' | sed 's/.//;s/.$//' > tmp/instance.txt 
 #CREATE_NFS | jq -c '.Instances[] | .InstanceId' | sed 's/.//;s/.$//' >> tmp/instance.txt
 echo -e " *************************************************\n \
-Instances are being created, comeback in 2 mins!!\n \
+Ionstances are being created, this will take awhile!!\n \
 *************************************************"
-aws ec2 wait instance-running --profile $AWS_PROFILE --endpoint http://$SNOW_IP:8008 \
---instance-ids $(sed '1q;d' tmp/instance.txt) $(sed '2q;d' tmp/instance.txt) $(sed '3q;d' tmp/instance.txt)
+while STATE=$(aws ec2 describe-instances --profile $AWS_PROFILE --endpoint http://$SNOW_IP:8008 --instance-ids $(sed '1q;d' tmp/instance.txt) --output text --query 'Reservations[*].Instances[*].State.Name'); test "$STATE" != "running"; do
+    sleep 1;
+done;
+
+while STATE=$(aws ec2 describe-instances --profile $AWS_PROFILE --endpoint http://$SNOW_IP:8008 --instance-ids $(sed '2q;d' tmp/instance.txt) --output text --query 'Reservations[*].Instances[*].State.Name'); test "$STATE" != "running"; do
+    sleep 1;
+done;
+
+while STATE=$(aws ec2 describe-instances --profile $AWS_PROFILE --endpoint http://$SNOW_IP:8008 --instance-ids $(sed '3q;d' tmp/instance.txt) --output text --query 'Reservations[*].Instances[*].State.Name'); test "$STATE" != "running"; do
+    sleep 1;
+done;
+#aws ec2 wait instance-running --profile $AWS_PROFILE --endpoint http://$SNOW_IP:8008 \
+#--instance-ids $(sed '1q;d' tmp/instance.txt) $(sed '2q;d' tmp/instance.txt) $(sed '3q;d' tmp/instance.txt)
 
 # Assign public IP for all nodes
 ASSO_VNIC $MASTER_IP $(sed '1q;d' tmp/instance.txt) && ASSO_VNIC $WORKER_IP1 $(sed '2q;d' tmp/instance.txt) && ASSO_VNIC $WORKER_IP2 $(sed '3q;d' tmp/instance.txt) 
