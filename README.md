@@ -8,6 +8,8 @@ Go to /GEEDocker for code to build the latest Open GEE into Docker images and /K
 
 ## Clone this repo and copy the require .pem cert for your AMI into the snowball-client-linux-1.0.1-335/bin directory
 
+## Take note of the instance type you want to create. For example: sbe1.xlarge for storage optimized and sbe-c.xlarge for compute optimized
+
 ## Create Snowball Edge and AWS Cli profiles
 
     snowballEdge configure --profile && aws configure --profile

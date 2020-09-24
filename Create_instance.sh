@@ -22,7 +22,7 @@ function CREATE_INSTANCE {
     aws ec2 run-instances \
       --count 3 \
       --image-id $IMAGE \
-      --instance-type sbe-c.2xlarge \
+      --instance-type $SBE \
       --endpoint http://$SNOW_IP:8008 \
       --profile $AWS_PROFILE
 }
@@ -43,6 +43,10 @@ function ASSO_VNIC {
       --public-ip $1 \
       --instance-id $2
 }
+
+# Set ec2 instance type
+read -p "Please enter the instance type: "
+echo "SBE=$REPLY" >> tmp/VAR.txt
 
 # Set SBE IP Address
 read -p "Please enter snowball IP: "
