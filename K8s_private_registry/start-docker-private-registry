@@ -21,3 +21,4 @@ kubectl rollout status deploy/docker-private-registry-deployment
 
 kubectl apply -f docker-private-registry-proxy.yml
 
+./port-forward-registry

@@ -87,9 +87,9 @@ sleep 5
 # Create Instance
 CREATE_INSTANCE | jq -c '.Instances[] | .InstanceId' | sed 's/.//;s/.$//' > tmp/instance.txt 
 #CREATE_NFS | jq -c '.Instances[] | .InstanceId' | sed 's/.//;s/.$//' >> tmp/instance.txt
-echo -e " *************************************************\n \
-Ionstances are being created, this will take awhile!!\n \
-*************************************************"
+echo -e " ***************************************************\n \
+Instances are being created, this will take awhile!!\n \
+***************************************************"
 while STATE=$(aws ec2 describe-instances --profile $AWS_PROFILE --endpoint http://$SNOW_IP:8008 --instance-ids $(sed '1q;d' tmp/instance.txt) --output text --query 'Reservations[*].Instances[*].State.Name'); test "$STATE" != "running"; do
     sleep 1;
 done;

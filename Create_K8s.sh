@@ -48,7 +48,7 @@ sleep 10
 
 echo -e "$USERN\n$USERP" | ssh -i $CERT centos@$MASTER_IP "cd SBE_K8s_Deployment/K8s_private_registry && ./start-docker-private-registry"
 sleep 5
-ssh -i $CERT centos@$MASTER_IP "cd SBE_K8s_Deployment/K8s_GEE && kubectl apply -f gee-nginx.yml"
+#ssh -i $CERT centos@$MASTER_IP "cd SBE_K8s_Deployment/K8s_GEE && kubectl apply -f gee-nginx.yml"
 
 echo "GEE Server are ready for access at $WORKER_IP1:30003\n \
 Private Registry can be accessed at $WORKER_IP1:5000 "
