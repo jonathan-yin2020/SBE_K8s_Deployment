@@ -38,6 +38,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
 EOF
 
 # Install Kubernetes.
+echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 yum install -y kubelet kubeadm kubectl
 
 # Enable Kubernetes. The kubelet service will not start until you run kubeadm init.
