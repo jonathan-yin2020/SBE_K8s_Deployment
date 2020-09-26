@@ -26,7 +26,7 @@ spec:
           - mountPath: "/var/opt/google/pgsql/data/"
             name: nfsvol2
       imagePullSecrets:
-      -name: repocred
+      - name: repocred
       volumes:
       - name: nfsvol
         persistentVolumeClaim:
