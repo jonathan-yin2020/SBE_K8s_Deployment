@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: gee
-          image: jyjl1314/geeserver:v1
+          image: 127.0.0.1:5000/geeserver:v1
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 80
