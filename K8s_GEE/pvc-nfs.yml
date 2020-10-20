@@ -56,5 +56,19 @@ spec:
   selector:
     matchLabels:
       purpose: registry
+---
 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc5
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 2Gi
+  selector:
+    matchLabels:
+      purpose: gevol
 

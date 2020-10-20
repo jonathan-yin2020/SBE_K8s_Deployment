@@ -25,6 +25,8 @@ spec:
             name: nfsvol
           - mountPath: "/var/opt/google/pgsql/data/"
             name: nfsvol2
+          - mountPath: "/gevol/server/"
+            name: nfsvol5
       imagePullSecrets:
       - name: repocred
       volumes:
@@ -34,6 +36,9 @@ spec:
       - name: nfsvol2
         persistentVolumeClaim:
           claimName: nfs-pvc2
+      - name: nfsvol5
+        persistentVolumeClaim:
+          claimName: nfs-pvc5
 ---
 
 apiVersion: v1

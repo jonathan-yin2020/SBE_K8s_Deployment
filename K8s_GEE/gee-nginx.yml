@@ -23,6 +23,8 @@ spec:
             name: nfsvol
           - mountPath: "/var/opt/google/pgsql/data/"
             name: nfsvol2
+          - mountPath: "/gevol/server/"
+            name: nfsvol5  
         - name: nginx
           image: 127.0.0.1:5000/nginx-auth:v1
           imagePullPolicy: IfNotPresent
@@ -43,6 +45,9 @@ spec:
       - name: nfsvol2
         persistentVolumeClaim:
           claimName: nfs-pvc2
+      - name: nfsvol5
+        persistentVolumeClaim:
+          claimName: nfs-pvc5
       - name: auth
         persistentVolumeClaim:
           claimName: nfs-pvc3

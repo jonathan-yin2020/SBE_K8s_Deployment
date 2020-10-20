@@ -68,3 +68,21 @@ spec:
     path: /share4
     server: 10.42.0.241
     readOnly: false
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv5
+  labels:
+    purpose: gevol
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /share5
+    server: 10.42.0.241
+    readOnly: false
