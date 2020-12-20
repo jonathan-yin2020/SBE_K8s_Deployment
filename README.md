@@ -41,3 +41,5 @@ https://www.tecmint.com/how-to-setup-nfs-server-in-linux/
 [flow]: https://user-images.githubusercontent.com/64214379/93840135-8a866900-fc4c-11ea-81c5-2d14f8c0d06b.png
 [nfs]: https://user-images.githubusercontent.com/64214379/94060523-54a6c900-fda1-11ea-9268-0ccbeabbaefb.png
 [nfs1]: https://user-images.githubusercontent.com/64214379/94060533-58d2e680-fda1-11ea-9a34-836cc1273797.png
+
+kubeadm join 192.168.0.117:6443 --token cp9zv1.ocy888m0kiynjvjq     --discovery-token-ca-cert-hash sha256:3d87bef3717994bf083e56f34ef373fdf83a3806d3354abbf32516075fab69c6
