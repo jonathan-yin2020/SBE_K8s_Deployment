@@ -1,0 +1,1 @@
+kubeadm join 192.168.0.151:6443 --token emd9fr.hghmlic2ie0z76s4     --discovery-token-ca-cert-hash sha256:d226c83b0708a4989f81c211f05a4d69f63dfced21df0be162060ace37155ab1 
