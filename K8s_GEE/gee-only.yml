@@ -27,6 +27,8 @@ spec:
             name: nfsvol2
           - mountPath: "/gevol/server/"
             name: nfsvol5
+      nodeSelector:
+        kubernetes.io/os: Linux
       imagePullSecrets:
       - name: repocred
       volumes:
