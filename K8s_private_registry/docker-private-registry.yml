@@ -35,6 +35,8 @@ spec:
         ports:
         - containerPort: 5000
           protocol: TCP    
+      nodeSelector:
+        kubernetes.io/os: linux
       volumes:
       - name: nfsvol3
         persistentVolumeClaim:
