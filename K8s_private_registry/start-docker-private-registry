@@ -13,18 +13,18 @@ echo "Please enter the Password:"
 
 read varpass
 
-kubectl apply -f ../K8s_GEE/pv-nfs.yml
+kubectl apply -f ~/SBE_K8s_Deployment/K8s_GEE/pv-nfs.yml
 sleep 3
 
-kubectl apply -f ../K8s_GEE/pvc-nfs.yml
+kubectl apply -f ~/SBE_K8s_Deployment/K8s_GEE/pvc-nfs.yml
 sleep 3
 
 kubectl create secret docker-registry repocred --docker-server=127.0.0.1:5000 --docker-username=$varname  --docker-password=$varpass
 
-kubectl apply -f docker-private-registry.yml 
+kubectl apply -f ~/SBE_K8s_Deployment/K8s_private_registry/docker-private-registry.yml 
 
 kubectl rollout status deploy/docker-private-registry-deployment
 
-kubectl apply -f docker-private-registry-proxy.yml
+kubectl apply -f ~/SBE_K8s_Deployment/K8s_private_registry/docker-private-registry-proxy.yml
 
 
